@@ -38,3 +38,7 @@ SessionKeeper 是一个 Chrome Manifest V3 扩展：定期在后台访问你已�
 ## License
 
 MIT
+
+## 致谢
+
+本项目基于 [Echoxiawan/SessionKeeper](https://github.com/Echoxiawan/SessionKeeper) 修改而来，感谢原作者的工作。在此版本中做了较多重构与功能调整，包括：站点勾选保活、随机化执行间隔与停留时长、单按钮总开关等。原仓库未附带开源许可证，如需使用请尊重原作者权益。
