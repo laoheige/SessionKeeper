@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SessionKeeper</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <main class="shell">
+    <header class="masthead">
+      <div><p class="eyebrow">SESSION CONTROL</p><h1>SessionKeeper</h1></div>
+      <span id="statusBadge" class="status"><i></i>加载中</span>
+    </header>
+    <nav class="tabs" aria-label="插件功能">
+      <button class="tab active" type="button" data-view="control">控制台</button>
+      <button class="tab" type="button" data-view="settings">设置</button>
+      <button class="tab" type="button" data-view="logs">日志 <span id="logCount">0</span></button>
+    </nav>
+    <div id="notice" class="notice" role="status" aria-live="polite"></div>
+
+    <section class="view active" data-view-panel="control">
+      <section class="metrics" aria-label="运行概况">
+        <div><span>监控站点</span><strong id="siteCount">—</strong></div>
+        <div><span>执行间隔</span><strong id="interval">—</strong></div>
+        <div><span>进行中</span><strong id="activeCount">—</strong></div>
+      </section>
+      <section class="panel">
+        <div class="title"><h2>当前监控网站</h2><span>ORIGINS</span></div>
+        <p class="list-hint">勾选需要保活的站点，未勾选的站点不执行</p>
+        <ul id="siteList" class="sites"><li class="empty">正在扫描…</li></ul>
+      </section>
+      <button id="runNow" class="primary" type="button">立即保活</button>
+    </section>
+
+    <section class="view" data-view-panel="settings">
+      <form id="settingsForm">
+        <div id="autoSaveStatus" class="autosave-status" role="status" aria-live="polite"><i></i><span>修改后自动保存</span></div>
+        <section class="panel form-panel">
+          <div class="title"><h2>任务节奏</h2><span>SCHEDULE</span></div>
+          <label class="field"><span>执行间隔</span><div class="range-inputs"><input id="intervalMinSeconds" data-autosave type="number" min="30" max="60" required><i>–</i><input id="intervalMaxSeconds" data-autosave type="number" min="30" max="60" required><i>秒</i></div><small>每轮在 30–60 秒区间内随机执行</small></label>
+          <label class="field"><span>页面加载后等待</span><div class="range-inputs"><input id="pageWaitMinSeconds" data-autosave type="number" min="0" max="300" required><i>–</i><input id="pageWaitMaxSeconds" data-autosave type="number" min="0" max="300" required><i>秒</i></div><small>每轮在范围内随机停留</small></label>
+          <label class="field"><span>并行后台页面</span><div><input id="maxConcurrentTabs" data-autosave type="number" min="1" max="10" required><i>个 Tab</i></div><small>允许同时打开 1–10 个，默认 3 个</small></label>
+          <label class="field"><span>保活地址</span><select id="keepAliveUrlMode" data-autosave><option value="hostname">打开主机根地址（默认）</option><option value="randomOpenUrl">随机一个同主机名的已打开地址</option></select><small>随机模式严格按完整 hostname 分组，不混用其他子域名</small></label>
+        </section>
+        <section class="panel form-panel">
+          <div class="title"><h2>域名规则</h2><span>FILTER</span></div>
+          <label class="field"><span>黑名单</span><textarea id="blacklist" data-autosave rows="4" placeholder="google.com&#10;analytics.example.com"></textarea><small>每行一个域名，同时匹配其子域名</small></label>
+          <label class="check-row"><input id="whitelistEnabled" data-autosave type="checkbox"><span>启用白名单模式</span></label>
+          <label class="field whitelist-field"><span>白名单</span><textarea id="whitelist" data-autosave rows="4" placeholder="gitlab.example.com&#10;jira.example.com"></textarea><small>开启后只保活这些域名</small></label>
+        </section>
+      </form>
+    </section>
+
+    <section class="view" data-view-panel="logs">
+      <section class="log-summary"><div><span>总记录</span><strong id="totalLogs">0</strong></div><div><span>成功率</span><strong id="successRate">—</strong></div></section>
+      <button id="clearLogs" class="ghost" type="button">清空日志</button>
+      <div id="allLogs" class="all-logs"><p class="empty">暂无运行日志</p></div>
+    </section>
+  </main>
+  <script type="module" src="popup.js"></script>
+</body>
+</html>
